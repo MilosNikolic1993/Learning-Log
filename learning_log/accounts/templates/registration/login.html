@@ -1,0 +1,27 @@
+{% extends 'learning_logs/base.html' %}
+
+{% load django_bootstrap5 %}
+
+{% block page_header %}
+  <h2>Log in to your account</h2>
+{% endblock page_header %}
+
+{% block content %}
+
+  <!-- Display error messages if username or password is incorrect -->
+  {% if form.errors %}
+    <div class="alert alert-danger">
+      Your username and password didn't match. Please try again.
+    </div>
+  {% endif %}
+
+  <!-- Login form -->
+  <form action="{% url 'accounts:login' %}" method="post">
+      {% csrf_token %}
+      <!-- Render form with Bootstrap styling -->
+      {% bootstrap_form form %}
+      <!-- Submit button -->
+      {% bootstrap_button button_type="submit" content="Log in" %}
+  </form>
+
+{% endblock content %}

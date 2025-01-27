@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Learning Log</title>
+
+    {% load django_bootstrap5 %}
+    {% bootstrap_css %}
+    {% bootstrap_javascript %}
+</head>
+
+<body>
+    <!-- Navbar section -->
+    <nav class="navbar navbar-expand-md navbar-light bg-light mb-4 border">
+        <div class="container-fluid">
+            <!-- Brand -->
+            <a class="navbar-brand" href="{% url 'learning_logs:index' %}">
+                Learning Log
+            </a>
+
+            <!-- Toggler button -->
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#navbarCollapse" aria-controls="navbarCollapse"
+                    aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <!-- Navbar links -->
+            <div class="collapse navbar-collapse" id="navbarCollapse">
+                <!-- Left links -->
+                <ul class="navbar-nav me-auto mb-2 mb-md-0">
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'learning_logs:topics' %}">Topics</a>
+                    </li>
+                </ul>
+
+                <!-- Right links for account actions -->
+                <ul class="navbar-nav ms-auto mb-2 mb-md-0">
+                    {% if user.is_authenticated %}
+                        <li class="nav-item">
+                            <span class="navbar-text me-2">Hello, {{ user.username }}.</span>
+                        </li>
+                    {% else %}
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'accounts:register' %}">Register</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'accounts:login' %}">Log in</a>
+                        </li>
+                    {% endif %}
+                </ul>
+
+                <!-- Logout button for authenticated users -->
+                {% if user.is_authenticated %}
+                    <form action="{% url 'accounts:logout' %}" method="post" class="d-inline">
+                        {% csrf_token %}
+                        <button name="submit" class="btn btn-outline-secondary btn-sm">Log out</button>
+                    </form>
+                {% endif %}
+            </div> <!-- Closes collapsible navbar -->
+        </div> <!-- Closes navbar container -->
+    </nav> <!-- End of navbar -->
+
+    <!-- Main content -->
+    <main class="container">
+        <div class="pb-2 mb-2 border-bottom">
+            {% block page_header %}{% endblock page_header %}
+        </div>
+        <div>
+            {% block content %}{% endblock content %}
+        </div>
+    </main> <!-- Closes main content -->
+</body>
+</html>
