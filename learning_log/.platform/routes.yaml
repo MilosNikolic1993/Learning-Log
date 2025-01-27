@@ -1,11 +1,13 @@
 # Each route describes how an incoming URL will be processed by Platform.sh
-"https://{default}/":
-  type: upstream
-  upstream: "ll_project:http"
+routes:
+  "/*":
+    type: upstream
+    upstream: "ll_project:http"
+  "/static":
+    type: static
+    root: "static"
+    expires: 1h
 
-"https://www.{default}/":
-  type: redirect
-  to: "https://{default}/"
 
 # Each service listed will be deployed in its own container as part of your
 # Platform.sh project
